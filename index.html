@@ -45,6 +45,19 @@ footer{border-top:1px solid var(--line);padding:35px 0 48px;color:#bfc5ea;font-s
 .hero-domain h1 span{color:rgba(220,225,255,.58)}
 .hero-domain p{margin:18px 0 0;color:#e2e5ff;font-size:18px;line-height:1.5;max-width:650px}
 @media(max-width:480px){.hero-domain{margin-bottom:28px}.hero-domain h1{font-size:clamp(43px,13vw,62px)}.hero-domain p{font-size:16px;margin-top:13px}}
+
+.hero.purchase-hero{padding:30px 0 60px;min-height:auto;display:block;text-align:center;overflow:visible}
+.hero-centered{max-width:900px;margin:0 auto 30px;padding:0 8px;text-align:center}
+.hero-centered .hero-domain-eyebrow{font-size:12px;letter-spacing:.22em;margin:0 0 12px;color:#fff;opacity:.9}
+.hero-centered h1{margin:0;font-size:clamp(36px,10.5vw,88px);line-height:1.02;letter-spacing:-.055em;color:#fff;white-space:nowrap}
+.hero-features{margin:25px auto 0;display:flex;flex-direction:column;align-items:center;gap:15px;font-size:18px;line-height:1.2}
+.hero-features div{display:flex;align-items:center;gap:9px;color:#fff}
+.hero-features .check{font-size:25px;font-weight:700;margin-right:2px}
+.hero-features strong{font-weight:900}
+.hero-features div span:last-child{font-weight:400}
+.hero.purchase-hero .purchase{margin:0 auto;width:min(700px,100%)}
+@media(max-width:480px){.hero.purchase-hero{padding:24px 0 42px}.hero-centered{margin-bottom:22px;padding:0}.hero-centered .hero-domain-eyebrow{font-size:11px;letter-spacing:.18em;margin-bottom:10px}.hero-centered h1{font-size:clamp(36px,10.8vw,52px);letter-spacing:-.06em;line-height:1.02}.hero-features{font-size:16px;gap:13px;margin-top:22px}.hero-features .check{font-size:22px}.purchase{width:100%}.purchase-head h2{font-size:28px}.option{min-height:76px}.pay{padding:17px}.escrow-action{margin-left:14px;margin-right:14px}.secure-note{padding-bottom:22px}}
+@media(max-width:360px){.wrap{width:calc(100% - 18px)}.hero-centered h1{font-size:34px}.hero-features{font-size:15px}.option .left{font-size:17px}.price{font-size:23px}}
 </style>
 </head>
 <body>
@@ -58,10 +71,14 @@ footer{border-top:1px solid var(--line);padding:35px 0 48px;color:#bfc5ea;font-s
 <main>
 <section class="hero purchase-hero">
 <div class="wrap">
-  <div class="hero-domain">
-    <div class="hero-domain-eyebrow">PREMIUM DOMAIN · FOR SALE</div>
-    <h1>MughlaiFood<span>.Com</span></h1>
-    <p>A memorable premium domain for food, restaurant and culinary brands.</p>
+  <div class="hero-domain hero-centered">
+    <div class="hero-domain-eyebrow">Domain for sale</div>
+    <h1>MughlaiFood.Com</h1>
+    <div class="hero-features">
+      <div><span class="check">✓</span><strong>Free</strong><span>transaction support</span></div>
+      <div><span class="check">✓</span><strong>Secure</strong><span>payments</span></div>
+      <div><span class="check">✓</span><strong>Spaceship</strong><span>reliability</span></div>
+    </div>
   </div>
 
 <div class="purchase">
