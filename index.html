@@ -103,7 +103,7 @@ footer{border-top:1px solid var(--line);padding:35px 0 48px;color:#bfc5ea;font-s
   <div class="escrow-action">
     <div class="escrow-title">Secure purchase with Escrow.com</div>
     <div class="escrow-buttons">
-      <form id="escrowActionForm" action="https://www.escrow.com/checkout" method="post" target="_blank">
+      <form id="escrowBuyForm" action="https://www.escrow.com/checkout" method="post" target="_blank">
         <input type="hidden" name="type" value="domain_name">
         <input type="hidden" name="non_initiator_email" value="chefravidutta@gmail.com">
         <input type="hidden" name="non_initiator_id" value="3906931">
@@ -119,7 +119,30 @@ footer{border-top:1px solid var(--line);padding:35px 0 48px;color:#bfc5ea;font-s
         <input type="hidden" name="return_url" value="https://www.mughlaifood.com">
         <input type="hidden" name="button_types" value="both">
         <input type="hidden" name="item_key" value="MughlaiFood.Com">
-        <button id="escrowActionButton" type="submit" class="escrow-btn buy">Buy It Now <span>→</span></button>
+        <input type="hidden" name="auto_accept" value="100">
+        <input type="hidden" name="auto_reject" value="99">
+        <button type="submit" class="escrow-btn buy">Buy It Now <span>→</span></button>
+      </form>
+
+      <form id="escrowOfferForm" action="https://www.escrow.com/offer" method="post" target="_blank">
+        <input type="hidden" name="type" value="domain_name">
+        <input type="hidden" name="non_initiator_email" value="chefravidutta@gmail.com">
+        <input type="hidden" name="non_initiator_id" value="3906931">
+        <input type="hidden" name="non_initiator_role" value="seller">
+        <input type="hidden" name="title" value="Acquire MughlaiFood.Com">
+        <input type="hidden" name="currency" value="USD">
+        <input type="hidden" name="domain" value="MughlaiFood.Com">
+        <input type="hidden" name="price" value="799">
+        <input type="hidden" name="concierge" value="false">
+        <input type="hidden" name="with_content" value="false">
+        <input type="hidden" name="inspection_period" value="1">
+        <input type="hidden" name="fee_payer" value="seller">
+        <input type="hidden" name="return_url" value="https://www.mughlaifood.com">
+        <input type="hidden" name="button_types" value="both">
+        <input type="hidden" name="item_key" value="MughlaiFood.Com">
+        <input type="hidden" name="auto_accept" value="100">
+        <input type="hidden" name="auto_reject" value="99">
+        <button type="submit" class="escrow-btn offer">Make An Offer <span>→</span></button>
       </form>
     </div>
     <div class="escrow-note">Buy now or send your offer securely through Escrow.com.</div>
@@ -161,17 +184,8 @@ footer{border-top:1px solid var(--line);padding:35px 0 48px;color:#bfc5ea;font-s
       el.setAttribute('aria-checked',String(active));
     });
 
-    const form=document.getElementById('escrowActionForm');
-    const button=document.getElementById('escrowActionButton');
-    if(form && button){
-      const isOffer=which==='offer';
-      form.action=isOffer ? 'https://www.escrow.com/offer' : 'https://www.escrow.com/checkout';
-      button.classList.toggle('buy',!isOffer);
-      button.classList.toggle('offer',isOffer);
-      button.innerHTML=isOffer ? 'Make An Offer <span>→</span>' : 'Buy It Now <span>→</span>';
-    }
-
     if(which==='offer'){
+
       const input=document.querySelector('.offer-input');
       if(input){ setTimeout(()=>input.focus(),0); }
     }
