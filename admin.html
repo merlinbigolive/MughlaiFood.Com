@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MughlaiFood.com — Private Admin</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 0,#102b58 0,#061329 45%,#020817 100%);color:#fff;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.card{width:min(560px,100%);padding:34px 28px;border-radius:24px;background:rgba(8,20,43,.84);border:1px solid rgba(255,255,255,.13);box-shadow:0 24px 80px rgba(0,0,0,.45);text-align:center;backdrop-filter:blur(16px)}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.62}h1{margin:10px 0 8px;font-size:clamp(28px,6vw,44px)}.domain{opacity:.72;margin-bottom:28px}
+input{width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;outline:none;font-size:16px}
+button{margin-top:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#fff;padding:12px 20px;border-radius:999px;cursor:pointer;font-weight:700}
+.error{min-height:18px;margin-top:10px;color:#ffb4b4;font-size:12px}#dashboard{display:none}.count{font-size:clamp(52px,13vw,88px);font-weight:800;line-height:1;letter-spacing:-.04em;margin:18px 0 10px}.label{font-size:14px;opacity:.65}.status{margin-top:20px;font-size:12px;opacity:.55}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}.actions button{margin-top:0}.reset{border-color:rgba(255,190,80,.38);background:linear-gradient(135deg,rgba(255,177,65,.16),rgba(255,255,255,.06))}.logout{margin-left:0}
+</style></head><body>
+<main class="card">
+<section id="login"><div class="eyebrow">Private Admin Login</div><h1>Visitor Counter</h1><div class="domain">MughlaiFood.com</div>
+<input id="password" type="password" autocomplete="current-password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()"><button onclick="login()">Login</button><div class="error" id="error"></div></section>
+<section id="dashboard"><div class="eyebrow">Private Admin</div><h1>Visitor Counter</h1><div class="domain">MughlaiFood.com</div><div class="count" id="count">—</div><div class="label">Total recorded visitors</div><div class="status" id="status">Loading…</div><div class="actions"><button onclick="loadCount()">Refresh</button><button class="reset" onclick="resetCount()">Reset Visitors</button><button class="logout" onclick="logout()">Logout</button></div></section>
+</main>
+<script>
+const COUNTER_URL='https://abacus.jasoncameron.dev/get/public/mughlaifood-com-total-visitors';
+const PASS_HASH='f0ce0e86206541c60bc47be815f83eba98004f63c883e6d71ff5cc929cb5f9ca';
+const SESSION_KEY='private_admin_mughlaifood_com_auth';
+const BASELINE_KEY='visitor_baseline_mughlaifood-com-total-visitors';
+async function sha256(value){const b=new TextEncoder().encode(value);const h=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function login(){const p=document.getElementById('password').value;const e=document.getElementById('error');e.textContent='';if(await sha256(p)!==PASS_HASH){e.textContent='Incorrect password.';return}sessionStorage.setItem(SESSION_KEY,'1');showDashboard()}
+function showDashboard(){document.getElementById('login').style.display='none';document.getElementById('dashboard').style.display='block';loadCount()}
+function logout(){sessionStorage.removeItem(SESSION_KEY);location.reload()}
+function extractNumber(t){try{const d=JSON.parse(t);if(typeof d==='number')return d;if(d&&typeof d.value==='number')return d.value;if(d&&typeof d.value==='string'&&/^[0-9,]+$/.test(d.value.trim()))return Number(d.value.replace(/,/g,''));}catch{}const m=t.match(/\d[\d,]*/);return m?Number(m[0].replace(/,/g,'')):NaN}
+async function getCurrent(){const r=await fetch(COUNTER_URL,{cache:'no-store'});if(!r.ok)throw new Error('Request failed');return extractNumber(await r.text())}
+async function loadCount(){const count=document.getElementById('count'),status=document.getElementById('status');try{const current=await getCurrent();if(!Number.isFinite(current))throw new Error();let baseline=Number(localStorage.getItem(BASELINE_KEY)||'0');if(!Number.isFinite(baseline)||baseline<0)baseline=0;count.textContent=Math.max(0,current-baseline).toLocaleString();status.textContent='Updated just now'}catch(e){count.textContent='—';status.textContent='Could not read the counter. Try Refresh.'}}
+async function resetCount(){if(!confirm('Reset the displayed visitor total to 0? New visitors after this reset will continue counting.'))return;const status=document.getElementById('status');try{const current=await getCurrent();if(!Number.isFinite(current))throw new Error();localStorage.setItem(BASELINE_KEY,String(current));document.getElementById('count').textContent='0';status.textContent='Counter reset on this admin browser'}catch(e){status.textContent='Reset failed. Try again.'}}
+if(sessionStorage.getItem(SESSION_KEY)==='1')showDashboard();
+</script></body></html>
